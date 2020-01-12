@@ -1,17 +1,13 @@
-import React, {Component} from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  View
-} from 'react-native';
+import React, {PureComponent} from 'react';
+import {TouchableOpacity, Text, View} from 'react-native';
 import PropTypes from 'prop-types';
 import {shouldUpdate} from '../../../component-updater';
 
 import styleConstructor from './style';
 
-class Day extends Component {
+class Day extends PureComponent {
   static displayName = 'IGNORE';
-  
+
   static propTypes = {
     // TODO: disabled props should be removed
     state: PropTypes.oneOf(['disabled', 'today', '']),
@@ -21,7 +17,7 @@ class Day extends Component {
     marking: PropTypes.any,
     onPress: PropTypes.func,
     onLongPress: PropTypes.func,
-    date: PropTypes.object
+    date: PropTypes.object,
   };
 
   constructor(props) {
@@ -39,7 +35,13 @@ class Day extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return shouldUpdate(this.props, nextProps, ['state', 'children', 'marking', 'onPress', 'onLongPress']);
+    return shouldUpdate(this.props, nextProps, [
+      'state',
+      'children',
+      'marking',
+      'onPress',
+      'onLongPress',
+    ]);
   }
 
   render() {
@@ -50,10 +52,13 @@ class Day extends Component {
     let marking = this.props.marking || {};
     if (marking && marking.constructor === Array && marking.length) {
       marking = {
-        marking: true
+        marking: true,
       };
     }
-    const isDisabled = typeof marking.disabled !== 'undefined' ? marking.disabled : this.props.state === 'disabled';
+    const isDisabled =
+      typeof marking.disabled !== 'undefined'
+        ? marking.disabled
+        : this.props.state === 'disabled';
     let dot;
     if (marking.marked) {
       dotStyle.push(this.style.visibleDot);
@@ -63,7 +68,7 @@ class Day extends Component {
       if (marking.dotColor) {
         dotStyle.push({backgroundColor: marking.dotColor});
       }
-      dot = (<View style={dotStyle}/>);
+      dot = <View style={dotStyle} />;
     }
 
     if (marking.selected) {
@@ -88,9 +93,10 @@ class Day extends Component {
         onPress={this.onDayPress}
         onLongPress={this.onDayLongPress}
         activeOpacity={marking.activeOpacity}
-        disabled={marking.disableTouchEvent}
-      >
-        <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
+        disabled={marking.disableTouchEvent}>
+        <Text allowFontScaling={false} style={textStyle}>
+          {String(this.props.children)}
+        </Text>
         {dot}
       </TouchableOpacity>
     );

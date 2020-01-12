@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {
   FlatList,
   Platform,
@@ -26,7 +26,7 @@ const {width} = Dimensions.get('window');
  * @example: https://github.com/wix/react-native-calendars/blob/master/example/src/screens/calendarsList.js
  * @gif: https://github.com/wix/react-native-calendars/blob/master/demo/calendar-list.gif
  */
-class CalendarList extends Component {
+class CalendarList extends PureComponent {
   static displayName = 'CalendarList';
 
   static propTypes = {

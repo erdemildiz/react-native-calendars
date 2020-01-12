@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
-import {
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import React, {PureComponent} from 'react';
+import {TouchableOpacity, Text} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styleConstructor from './style';
 import {shouldUpdate} from '../../../component-updater';
 
-class Day extends Component {
+class Day extends PureComponent {
   static displayName = 'IGNORE';
-  
+
   static propTypes = {
     // TODO: disabled props should be removed
     state: PropTypes.oneOf(['selected', 'disabled', 'today', '']),
@@ -19,7 +16,7 @@ class Day extends Component {
     theme: PropTypes.object,
     marking: PropTypes.any,
     onPress: PropTypes.func,
-    date: PropTypes.object
+    date: PropTypes.object,
   };
 
   constructor(props) {
@@ -37,7 +34,13 @@ class Day extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return shouldUpdate(this.props, nextProps, ['state', 'children', 'marking', 'onPress', 'onLongPress']);
+    return shouldUpdate(this.props, nextProps, [
+      'state',
+      'children',
+      'marking',
+      'onPress',
+      'onLongPress',
+    ]);
   }
 
   render() {
@@ -47,10 +50,13 @@ class Day extends Component {
     let marking = this.props.marking || {};
     if (marking && marking.constructor === Array && marking.length) {
       marking = {
-        marking: true
+        marking: true,
       };
     }
-    const isDisabled = typeof marking.disabled !== 'undefined' ? marking.disabled : this.props.state === 'disabled';
+    const isDisabled =
+      typeof marking.disabled !== 'undefined'
+        ? marking.disabled
+        : this.props.state === 'disabled';
 
     if (marking.selected) {
       containerStyle.push(this.style.selected);
@@ -81,9 +87,10 @@ class Day extends Component {
         onPress={this.onDayPress}
         onLongPress={this.onDayLongPress}
         activeOpacity={marking.activeOpacity}
-        disabled={marking.disableTouchEvent}
-      >
-        <Text allowFontScaling={false} style={textStyle}>{String(this.props.children)}</Text>
+        disabled={marking.disableTouchEvent}>
+        <Text allowFontScaling={false} style={textStyle}>
+          {String(this.props.children)}
+        </Text>
       </TouchableOpacity>
     );
   }
